@@ -21,6 +21,7 @@ Current UI includes:
 - Vite
 - Docker
 - Nginx
+- GCP Cloud Build
 
 ## Local setup
 
@@ -69,7 +70,7 @@ npm run preview
 Build the image:
 
 ```bash
-docker build -t regift-ui ./ui/webapp
+docker build -f docker/dockerfile -t regift-ui .
 ```
 
 Run it locally:
@@ -84,14 +85,39 @@ Then open:
 http://localhost:8080
 ```
 
-This image is suitable for container-based deployment targets such as GCP Cloud Run or other container hosting.
+Docker files live in:
+
+```text
+docker/
+```
+
+## Cloud Build
+
+Cloud Build config lives in:
+
+```text
+cloud-build/cloudbuild.yaml
+```
+
+Example submit command:
+
+```bash
+gcloud builds submit --config cloud-build/cloudbuild.yaml \
+  --substitutions=_AR_REPOSITORY=regifter,_SERVICE_NAME=webapp
+```
+
+This builds a container image suitable for deployment to Cloud Run or another GCP container target.
 
 ## Project structure
 
 ```text
 ui/webapp/
-├── Dockerfile
-├── nginx.conf
+├── cloud-build/
+│   └── cloudbuild.yaml
+├── docker/
+│   ├── dockerfile
+│   ├── dockerfile.dockerignore
+│   └── nginx.conf
 ├── index.html
 ├── package.json
 ├── tsconfig.json
