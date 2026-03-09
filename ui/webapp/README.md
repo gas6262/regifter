@@ -19,13 +19,15 @@ Current UI includes:
 - React
 - TypeScript
 - Vite
+- Docker
+- Nginx
 
 ## Local setup
 
 ### 1. Go to the project directory
 
 ```bash
-cd regift-ui
+cd ui/webapp
 ```
 
 ### 2. Install dependencies
@@ -62,10 +64,34 @@ To preview the production build locally:
 npm run preview
 ```
 
+## Docker
+
+Build the image:
+
+```bash
+docker build -t regift-ui ./ui/webapp
+```
+
+Run it locally:
+
+```bash
+docker run --rm -p 8080:8080 regift-ui
+```
+
+Then open:
+
+```bash
+http://localhost:8080
+```
+
+This image is suitable for container-based deployment targets such as GCP Cloud Run or other container hosting.
+
 ## Project structure
 
 ```text
-regift-ui/
+ui/webapp/
+├── Dockerfile
+├── nginx.conf
 ├── index.html
 ├── package.json
 ├── tsconfig.json
